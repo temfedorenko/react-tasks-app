@@ -1,6 +1,6 @@
 import TodoItem from "./TodoItem";
 
-const TodoList = ({ todos, setTodos, onDeleteTodo }) => {
+const TodoList = ({ todos, setTodos, onDeleteTodo, updateTodo }) => {
   const onToggleTodoStatus = (id) => {
     setTodos(
       todos.map((todo) => {
@@ -15,6 +15,7 @@ const TodoList = ({ todos, setTodos, onDeleteTodo }) => {
       todo={todo}
       onToggleTodoStatus={onToggleTodoStatus}
       onDeleteTodo={onDeleteTodo}
+      updateTodo={updateTodo}
     />
   ));
 

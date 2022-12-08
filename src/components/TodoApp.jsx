@@ -25,6 +25,7 @@ const TodoApp = () => {
   }
 
   const activeTodosCounter = todos?.filter((todo) => todo.completed === false).length;
+  const completedTodosCounter = todos?.filter((todo) => todo.completed === true).length;
 
   const onToggleAllTodosStatus = () => {
     if (!activeTodosCounter) {
@@ -44,6 +45,29 @@ const TodoApp = () => {
     }
   };
 
+  const onDeleteTodo = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
+  const updateTodo = (id, title) => {
+    setTodos(
+      todos.map((todo) => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            title,
+          };
+        }
+
+        return todo;
+      })
+    );
+  };
+
+  const cleareCompletedTodos = () => {
+    setTodos(todos.filter((todo) => todo.completed !== true));
+  };
+
   const onFilterSelect = (filter) => {
     setFilter(filter);
   };
@@ -59,10 +83,6 @@ const TodoApp = () => {
       default:
         return todos;
     }
-  };
-
-  const onDeleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   const visibleTodos = filterTodos(filter);
@@ -97,15 +117,22 @@ const TodoApp = () => {
           </>
         )}
 
-        <TodoList todos={visibleTodos} setTodos={setTodos} onDeleteTodo={onDeleteTodo} />
+        <TodoList
+          todos={visibleTodos}
+          setTodos={setTodos}
+          onDeleteTodo={onDeleteTodo}
+          updateTodo={updateTodo}
+        />
       </section>
 
-      {todos.length > 0 && (
+      {visibleTodos.length > 0 && (
         <footer className="footer">
           <TodosFilter
             activeTodosCounter={activeTodosCounter}
+            completedTodosCounter={completedTodosCounter}
             filter={filter}
             onFilterSelect={onFilterSelect}
+            cleareCompletedTodos={cleareCompletedTodos}
           />
         </footer>
       )}

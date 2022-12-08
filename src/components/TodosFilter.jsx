@@ -1,4 +1,10 @@
-const TodosFilter = ({ activeTodosCounter, filter, onFilterSelect }) => {
+const TodosFilter = ({
+  activeTodosCounter,
+  completedTodosCounter,
+  filter,
+  onFilterSelect,
+  cleareCompletedTodos,
+}) => {
   return (
     <>
       <span className="todo-count">{activeTodosCounter} items left</span>
@@ -31,9 +37,11 @@ const TodosFilter = ({ activeTodosCounter, filter, onFilterSelect }) => {
         </li>
       </ul>
 
-      <button type="button" className="clear-completed">
-        Clear completed
-      </button>
+      {completedTodosCounter > 0 && (
+        <button type="button" className="clear-completed" onClick={() => cleareCompletedTodos()}>
+          Clear completed
+        </button>
+      )}
     </>
   );
 };
