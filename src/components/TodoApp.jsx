@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
+import TodoAddForm from "./TodoAddForm";
 import TodoList from "./TodoList";
 import TodosFilter from "./TodosFilter";
 
 const TodoApp = () => {
-  const [todoTitle, setTodoTitle] = useState("");
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
@@ -18,21 +17,9 @@ const TodoApp = () => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-  function handleFormSubmit(e) {
-    e.preventDefault();
-
-    if (!todoTitle) {
-      return;
-    }
-
-    const newTodo = {
-      id: uuidv4(),
-      title: todoTitle,
-      completed: false,
-    };
+  const addTodo = (newTodo) => {
     setTodos([...todos, newTodo]);
-    setTodoTitle("");
-  }
+  };
 
   const activeTodosCounter = todos?.filter((todo) => todo.completed === false).length;
   const completedTodosCounter = todos?.filter((todo) => todo.completed === true).length;
@@ -107,15 +94,7 @@ const TodoApp = () => {
       <header className="header">
         <h1>todos</h1>
 
-        <form onSubmit={(e) => handleFormSubmit(e)}>
-          <input
-            type="text"
-            className="new-todo"
-            placeholder="What needs to be done?"
-            value={todoTitle}
-            onChange={(e) => setTodoTitle(e.target.value)}
-          />
-        </form>
+        <TodoAddForm addTodo={addTodo} />
       </header>
 
       <section className="main">
