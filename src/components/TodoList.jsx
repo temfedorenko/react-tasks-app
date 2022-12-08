@@ -1,19 +1,11 @@
 import TodoItem from "./TodoItem";
 
-const TodoList = ({ todos, setTodos, onDeleteTodo, updateTodo }) => {
-  const onToggleTodoStatus = (id) => {
-    setTodos(
-      todos.map((todo) => {
-        return todo.id === id ? { ...todo, completed: !todo.completed } : todo;
-      })
-    );
-  };
-
+const TodoList = ({ todos, onToggleTodoStatus, onDeleteTodo, updateTodo }) => {
   const todoItems = todos?.map((todo) => (
     <TodoItem
       key={todo.id}
       todo={todo}
-      onToggleTodoStatus={onToggleTodoStatus}
+      onToggleTodoStatus={() => onToggleTodoStatus(todo.id)}
       onDeleteTodo={onDeleteTodo}
       updateTodo={updateTodo}
     />

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import TodoList from "./TodoList";
 import TodosFilter from "./TodosFilter";
@@ -6,7 +7,16 @@ import TodosFilter from "./TodosFilter";
 const TodoApp = () => {
   const [todoTitle, setTodoTitle] = useState("");
   const [todos, setTodos] = useState([]);
-  const [filter, setFilter] = useState("all");
+
+  useEffect(() => {
+    localStorage.getItem("todos")
+      ? setTodos(JSON.parse(localStorage.getItem("todos")))
+      : setTodos([]);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   function handleFormSubmit(e) {
     e.preventDefault();
@@ -26,6 +36,14 @@ const TodoApp = () => {
 
   const activeTodosCounter = todos?.filter((todo) => todo.completed === false).length;
   const completedTodosCounter = todos?.filter((todo) => todo.completed === true).length;
+
+  const onToggleTodoStatus = (id) => {
+    setTodos(
+      todos.map((todo) => {
+        return todo.id === id ? { ...todo, completed: !todo.completed } : todo;
+      })
+    );
+  };
 
   const onToggleAllTodosStatus = () => {
     if (!activeTodosCounter) {
@@ -68,17 +86,14 @@ const TodoApp = () => {
     setTodos(todos.filter((todo) => todo.completed !== true));
   };
 
-  const onFilterSelect = (filter) => {
-    setFilter(filter);
-  };
+  const location = useLocation();
+  const filter = location.pathname;
 
   const filterTodos = (filter) => {
     switch (filter) {
-      case "all":
-        return todos;
-      case "active":
+      case "/active":
         return todos.filter((todo) => todo.completed === false);
-      case "completed":
+      case "/completed":
         return todos.filter((todo) => todo.completed === true);
       default:
         return todos;
@@ -122,16 +137,15 @@ const TodoApp = () => {
           setTodos={setTodos}
           onDeleteTodo={onDeleteTodo}
           updateTodo={updateTodo}
+          onToggleTodoStatus={onToggleTodoStatus}
         />
       </section>
 
-      {visibleTodos.length > 0 && (
+      {todos.length > 0 && (
         <footer className="footer">
           <TodosFilter
             activeTodosCounter={activeTodosCounter}
             completedTodosCounter={completedTodosCounter}
-            filter={filter}
-            onFilterSelect={onFilterSelect}
             cleareCompletedTodos={cleareCompletedTodos}
           />
         </footer>

@@ -1,44 +1,33 @@
-const TodosFilter = ({
-  activeTodosCounter,
-  completedTodosCounter,
-  filter,
-  onFilterSelect,
-  cleareCompletedTodos,
-}) => {
+import { NavLink } from "react-router-dom";
+
+const TodosFilter = ({ activeTodosCounter, completedTodosCounter }) => {
   return (
     <>
       <span className="todo-count">{activeTodosCounter} items left</span>
       <ul className="filters">
         <li>
-          <a
-            href="#/"
-            className={filter === "all" ? "selected" : null}
-            onClick={() => onFilterSelect("all")}>
+          <NavLink to="/" className={({ isActive }) => (isActive ? "selected" : undefined)}>
             All
-          </a>
+          </NavLink>
         </li>
 
         <li>
-          <a
-            href="#/active"
-            className={filter === "active" ? "selected" : null}
-            onClick={() => onFilterSelect("active")}>
+          <NavLink to="/active" className={({ isActive }) => (isActive ? "selected" : undefined)}>
             Active
-          </a>
+          </NavLink>
         </li>
 
         <li>
-          <a
-            href="#/completed"
-            className={filter === "completed" ? "selected" : null}
-            onClick={() => onFilterSelect("completed")}>
+          <NavLink
+            to="/completed"
+            className={({ isActive }) => (isActive ? "selected" : undefined)}>
             Completed
-          </a>
+          </NavLink>
         </li>
       </ul>
 
       {completedTodosCounter > 0 && (
-        <button type="button" className="clear-completed" onClick={() => cleareCompletedTodos()}>
+        <button type="button" className="clear-completed">
           Clear completed
         </button>
       )}
