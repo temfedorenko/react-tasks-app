@@ -61,6 +61,10 @@ const TodoApp = () => {
     }
   };
 
+  const onDeleteTodo = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
   const visibleTodos = filterTodos(filter);
 
   return (
@@ -80,16 +84,20 @@ const TodoApp = () => {
       </header>
 
       <section className="main">
-        <input
-          type="checkbox"
-          id="toggle-all"
-          className="toggle-all"
-          checked={!activeTodosCounter}
-          onChange={() => onToggleAllTodosStatus()}
-        />
-        <label htmlFor="toggle-all">Mark all as complete</label>
+        {visibleTodos.length > 0 && (
+          <>
+            <input
+              type="checkbox"
+              id="toggle-all"
+              className="toggle-all"
+              checked={!activeTodosCounter}
+              onChange={() => onToggleAllTodosStatus()}
+            />
+            <label htmlFor="toggle-all">Mark all as complete</label>
+          </>
+        )}
 
-        <TodoList todos={visibleTodos} setTodos={setTodos} />
+        <TodoList todos={visibleTodos} setTodos={setTodos} onDeleteTodo={onDeleteTodo} />
       </section>
 
       {todos.length > 0 && (

@@ -51,6 +51,7 @@
   -webkit-appearance: none;
   appearance: none;
   opacity: 0;
+  cursor: pointer;
 }
 
 .todo-list li label {

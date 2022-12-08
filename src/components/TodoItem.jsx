@@ -1,4 +1,4 @@
-const TodoItem = ({ todo, onToggleTodoStatus }) => {
+const TodoItem = ({ todo, onToggleTodoStatus, onDeleteTodo }) => {
   return (
     <li className={todo.completed ? "completed" : null}>
       <div className="view">
@@ -16,7 +16,7 @@ const TodoItem = ({ todo, onToggleTodoStatus }) => {
           }}>
           {todo.title}
         </label>
-        <button type="button" className="destroy" />
+        <button type="button" className="destroy" onClick={() => onDeleteTodo(todo.id)} />
       </div>
       <input type="text" className="edit" />
     </li>
