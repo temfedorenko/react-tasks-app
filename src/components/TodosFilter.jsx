@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-const TodosFilter = ({ activeTodosCounter, completedTodosCounter }) => {
+const TodosFilter = ({ activeTodosCounter, completedTodosCounter, cleareCompletedTodos }) => {
   return (
     <>
       <span className="todo-count">{activeTodosCounter} items left</span>
@@ -27,7 +27,7 @@ const TodosFilter = ({ activeTodosCounter, completedTodosCounter }) => {
       </ul>
 
       {completedTodosCounter > 0 && (
-        <button type="button" className="clear-completed">
+        <button type="button" className="clear-completed" onClick={cleareCompletedTodos}>
           Clear completed
         </button>
       )}
